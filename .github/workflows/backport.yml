@@ -22,6 +22,6 @@ jobs:
         run: |
           backport-assistant backport
         env:
-          BACKPORT_LABEL_REGEXP: "(?P<target>\\d+\\.\\d+\\.\\d+)-backport"
+          BACKPORT_LABEL_REGEXP: "(?P<target>\\d+\\.\\d+\\.[+\\w]+)-backport"
           BACKPORT_TARGET_TEMPLATE: "releases/{{.target}}"
           GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
