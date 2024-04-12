@@ -8,20 +8,34 @@ on:
       - labeled
 
 jobs:
-  backport:
-    if: github.event.pull_request.merged
-    runs-on: ubuntu-latest
-    container: hashicorpdev/backport-assistant:0.3.5
-    steps:
-      - name: print event
-        env:
-          EVENT: ${{ toJson(github.event) }}
-        run: |
-          echo "$EVENT"
-      - name: Run Backport Assistant
-        run: |
-          backport-assistant backport
-        env:
-          BACKPORT_LABEL_REGEXP: "(?P<target>\\d+\\.\\d+\\.[+\\w]+)-backport"
-          BACKPORT_TARGET_TEMPLATE: "releases/{{.target}}"
-          GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
+  # backport:
+  #   if: github.event.pull_request.merged
+  #   runs-on: ubuntu-latest
+  #   container: hashicorpdev/backport-assistant:0.3.5
+  #   steps:
+  #     - name: print event
+  #       env:
+  #         EVENT: ${{ toJson(github.event) }}
+  #       run: |
+  #         echo "$EVENT"
+  #     - name: Run Backport Assistant
+  #       run: |
+  #         backport-assistant backport
+  #       env:
+  #         BACKPORT_LABEL_REGEXP: "(?P<target>\\d+\\.\\d+\\.[+\\w]+)-backport"
+  #         BACKPORT_TARGET_TEMPLATE: "releases/{{.target}}"
+  #         GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
+          
+  backport-ent:
+      if: github.event.pull_request.merged
+      runs-on: ubuntu-latest
+      container: hashicorpdev/backport-assistant:0.3.5
+      steps:
+        - name: Repository Dispatch
+          uses: peter-evans/repository-dispatch@v3
+          with:
+            token: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
+            repository: HashiCorp-RelEng-Dev/bpa-test-ent
+            event-type: ent-backport
+            client-payload: ${{ toJson(github.event) }}
+    
