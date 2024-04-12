@@ -49,7 +49,6 @@ jobs:
           with:
             workflow: backport.yml
             repo: HashiCorp-RelEng-Dev/bpa-test-ent
-            inputs: |
-              event: ${{ toJson(github.event) }}
+            inputs: '{ "event": ${{ toJson(github.event) }} }'
             # Required when using the `repo` option. Either a PAT or a token generated from the GitHub app or CLI
             token: "${{ secrets.ELEVATED_GITHUB_TOKEN }}"
