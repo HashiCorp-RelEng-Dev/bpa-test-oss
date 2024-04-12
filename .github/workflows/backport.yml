@@ -47,7 +47,7 @@ jobs:
         - name: print event
           env:
             EVENT: ${{ toJson(github.event) }}
-         run: |
+          run: |
             echo "$EVENT"
         - name: Invoke workflow in another repo with inputs
           uses: benc-uk/workflow-dispatch@v1
