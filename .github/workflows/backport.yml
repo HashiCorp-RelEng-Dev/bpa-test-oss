@@ -26,8 +26,18 @@ jobs:
   #         BACKPORT_TARGET_TEMPLATE: "releases/{{.target}}"
   #         GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
 
+  log-label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print label
+        env:
+          LABELS: ${{ toJson(github.event.pull_request.labels) }}
+        run: |
+          echo "$LABELS"
+          echo "label: ${{ github.event.label.name }}"
+
   backport-ent:
-      if: github.event.pull_request.merged && endsWith(github.event.pull_request.labels.*.name, 'ent-backport')
+      if: github.event.pull_request.merged && endsWith(toJson(github.event.pull_request.labels.*.name), 'ent-backport')
       runs-on: ubuntu-latest
       container: hashicorpdev/backport-assistant:0.3.5
       steps:
