@@ -37,6 +37,15 @@ jobs:
           echo "label: ${{ github.event.label.name }}"
           echo "label: ${{ github.event.pull_request.labels.*.name }}"
 
+  log-event:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print event
+        env:
+          EVENT: ${{ toJson(github.event) }}
+        run: |
+          echo "$EVENT"
+
   backport-ent:
       if: github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, '1.0.x-ent-backport')
       runs-on: ubuntu-latest
