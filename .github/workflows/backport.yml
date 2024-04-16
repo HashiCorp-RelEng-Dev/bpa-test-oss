@@ -38,7 +38,7 @@ jobs:
           echo " join label: ${{ join(github.event.pull_request.labels.*.name, 'ent-backport') }}"
 
   backport-ent:
-      if: ${{ join(github.event.pull_request.labels.*.name, 'ent-backport') == true }}
+      if: contains(${{ join(github.event.pull_request.labels.*.name, 'ent-backport')}}, 'ent-backport')
       runs-on: ubuntu-latest
       container: hashicorpdev/backport-assistant:0.3.5
       steps:
