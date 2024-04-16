@@ -8,23 +8,22 @@ on:
       - labeled
 
 jobs:
-  # backport:
-  #   if: github.event.pull_request.merged
-  #   runs-on: ubuntu-latest
-  #   container: hashicorpdev/backport-assistant:0.3.5
-  #   steps:
-  #     - name: print event
-  #       env:
-  #         EVENT: ${{ toJson(github.event) }}
-  #       run: |
-  #         echo "$EVENT"
-  #     - name: Run Backport Assistant
-  #       run: |
-  #         backport-assistant backport
-  #       env:
-  #         BACKPORT_LABEL_REGEXP: "(?P<target>\\d+\\.\\d+\\.[+\\w]+)-backport"
-  #         BACKPORT_TARGET_TEMPLATE: "releases/{{.target}}"
-  #         GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
+  backport-config:
+    runs-on: ubuntu-latest
+    container: hashicorpdev/backport-assistant:0.3.5
+    steps:
+      - name: print event
+        env:
+          EVENT: ${{ toJson(github.event) }}
+        run: |
+          echo "$EVENT"
+      - name: Run Backport Assistant config
+        run: |
+          backport-assistant config
+        env:
+          BACKPORT_LABEL_REGEXP: "(?P<target>\\d+\\.\\d+\\.[+\\w]+)-backport"
+          BACKPORT_TARGET_TEMPLATE: "releases/{{.target}}"
+          GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
 
   log-label:
     runs-on: ubuntu-latest
@@ -38,7 +37,7 @@ jobs:
           echo "label: ${{ github.event.pull_request.labels.*.name }}"
 
   backport-ent:
-      if: github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, '1.0.x-ent-backport')
+      if: github.event.pull_request.merged && join(github.event.pull_request.labels.*.name, 'ent-backport')
       runs-on: ubuntu-latest
       container: hashicorpdev/backport-assistant:0.3.5
       steps:
