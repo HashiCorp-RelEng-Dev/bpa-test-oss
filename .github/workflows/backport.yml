@@ -40,7 +40,7 @@ jobs:
   backport-ent:
       if: github.event.pull_request.merged && contains(join(github.event.pull_request.labels.*.name), 'backport-ent')
       runs-on: ubuntu-latest
-      container: hashicorpdev/backport-assistant:0.3.5
+      # container: hashicorpdev/backport-assistant:0.3.5
       steps:
         - name: Repository Dispatch
           uses: peter-evans/repository-dispatch@v3
