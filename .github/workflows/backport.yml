@@ -8,39 +8,24 @@ on:
       - closed
 
 jobs:
-  # backport-config:
-  #   runs-on: ubuntu-latest
-  #   container: hashicorpdev/backport-assistant:0.3.5
-  #   steps:
-  #     - name: print event
-  #       env:
-  #         EVENT: ${{ toJson(github.event) }}
-  #       run: |
-  #         echo "$EVENT"
-  #     - name: Run Backport Assistant config
-  #       run: |
-  #         backport-assistant config
-  #       env:
-  #         BACKPORT_LABEL_REGEXP: "(?P<target>\\d+\\.\\d+\\.[+\\w]+)-backport"
-  #         BACKPORT_TARGET_TEMPLATE: "releases/{{.target}}"
-  #         GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
-
-  log-label:
+  backport:
+    if: github.event.pull_request.merged
     runs-on: ubuntu-latest
+    container: hashicorpdev/backport-assistant:bshore-test
     steps:
-      - name: print label
-        env:
-          LABELS: ${{ toJson(github.event.pull_request.labels) }}
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: run backport assistant
         run: |
-          echo "$LABELS"
-          echo "label: ${{ github.event.label.name }}"
-          echo "label: ${{ github.event.pull_request.labels.*.name }}"
-          echo " join label: ${{ join(github.event.pull_request.labels.*.name) }}"
+          backport-assistant backport
+          env:
+          BACKPORT_LABEL_REGEXP: "backport/(?P<target>\\d+\\.\\d+\\.[+\\w])"
+          BACKPORT_TARGET_TEMPLATE: "releases/{{.target}}"
+          GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
 
   backport-ent:
       if: github.event.pull_request.merged && contains(join(github.event.pull_request.labels.*.name), 'backport/ent')
       runs-on: ubuntu-latest
-      container: hashicorpdev/backport-assistant:0.3.5
       steps:
         - name: Repository Dispatch
           uses: peter-evans/repository-dispatch@v3
@@ -50,21 +35,3 @@ jobs:
             event-type: ent-backport
             client-payload: ${{ toJson(github.event) }}
 
-  # backport-ent:
-  #     if: github.event.pull_request.merged
-  #     runs-on: ubuntu-latest
-  #     container: hashicorpdev/backport-assistant:0.3.5
-  #     steps:
-  #       - name: print event
-  #         env:
-  #           EVENT: ${{ toJson(github.event) }}
-  #         run: |
-  #           echo "$EVENT"
-  #       - name: Invoke workflow in another repo with inputs
-  #         uses: benc-uk/workflow-dispatch@v1
-  #         with:
-  #           workflow: backport.yml
-  #           repo: HashiCorp-RelEng-Dev/bpa-test-ent
-  #           inputs: '{ "event": ${{ github.event.label.name }} }'
-  #           # Required when using the `repo` option. Either a PAT or a token generated from the GitHub app or CLI
-  #           token: "${{ secrets.ELEVATED_GITHUB_TOKEN }}"
