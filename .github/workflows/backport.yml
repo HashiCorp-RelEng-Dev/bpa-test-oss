@@ -11,7 +11,7 @@ jobs:
   backport:
     if: github.event.pull_request.merged
     runs-on: ubuntu-latest
-    container: hashicorpdev/backport-assistant:0.3.6
+    container: hashicorpdev/backport-assistant:0.3.5
     steps:
       - name: Checkout
         uses: actions/checkout@v2
