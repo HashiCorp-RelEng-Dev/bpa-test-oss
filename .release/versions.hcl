@@ -5,6 +5,6 @@ active_versions {
     lts       = true
   }
   version "2.0" {
-    lts = true
+    lts       = true
   }
 }
