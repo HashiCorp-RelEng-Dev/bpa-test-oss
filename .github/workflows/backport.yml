@@ -11,10 +11,19 @@ jobs:
   backport:
     if: github.event.pull_request.merged
     runs-on: ubuntu-latest
-    container: hashicorpdev/backport-assistant:0.3.4
+    container: hashicorpdev/backport-assistant:bshore-test
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: print event
+        run: echo ${{ toJson(github.event) }}
+      - name: run backport config
+        run: |
+          backport-assistant config
+          env:
+          BACKPORT_LABEL_REGEXP: "(?P<target>\\d+\\.\\d+\\.[+\\w]+)-backport"
+          BACKPORT_TARGET_TEMPLATE: "releases/{{.target}}"
+          GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
       - name: run backport assistant
         run: |
           backport-assistant backport
@@ -22,6 +31,7 @@ jobs:
           BACKPORT_LABEL_REGEXP: "backport/(?P<target>\\d+\\.\\d+\\.[+\\w])"
           BACKPORT_TARGET_TEMPLATE: "releases/{{.target}}"
           GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
+          ENABLE_VERSION_MANIFESTS: true
 
   backport-ent:
       if: github.event.pull_request.merged && contains(join(github.event.pull_request.labels.*.name), 'backport/ent')
