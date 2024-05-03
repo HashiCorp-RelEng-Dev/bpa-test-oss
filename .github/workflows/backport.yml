@@ -30,7 +30,7 @@ jobs:
       - name: run backport assistant
         run: |
           backport-assistant backport
-      env:
+        env:
           BACKPORT_LABEL_REGEXP: "backport/(?P<target>\\d+\\.\\d+\\.[+\\w])"
           BACKPORT_TARGET_TEMPLATE: "releases/{{.target}}"
           GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
