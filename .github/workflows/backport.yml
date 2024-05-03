@@ -15,24 +15,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: print event
-        env:
-          EVENT: ${{ toJson(github.event) }}
-        run: |
-          echo $EVENT
-      - name: run backport config
-        run: |
-          backport-assistant config
-        env:
-          BACKPORT_LABEL_REGEXP: "(?P<target>\\d+\\.\\d+\\.[+\\w]+)-backport"
-          BACKPORT_TARGET_TEMPLATE: "releases/{{.target}}.x"
-          GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
       - name: run backport assistant
         run: |
           backport-assistant backport
         env:
           BACKPORT_LABEL_REGEXP: "backport/(?P<target>\\d+\\.\\d+\\.[+\\w])"
-          BACKPORT_TARGET_TEMPLATE: "releases/{{.target}}.x"
+          BACKPORT_TARGET_TEMPLATE: "releases/{{.target}}"
           GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
           ENABLE_VERSION_MANIFESTS: true
 
