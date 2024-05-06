@@ -13,8 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     container: hashicorpdev/backport-assistant:bshore-test
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      # - name: Checkout
+      #   uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
       - name: run backport assistant
         run: |
           backport-assistant backport
@@ -29,7 +29,7 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: Repository Dispatch
-          uses: peter-evans/repository-dispatch@v3
+          uses: peter-evans/repository-dispatch@ff45666b9427631e3450c54a1bcbee4d9ff4d7c0 # v3.0.0
           with:
             token: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
             repository: HashiCorp-RelEng-Dev/bpa-test-ent
