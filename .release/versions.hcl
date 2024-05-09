@@ -9,5 +9,5 @@ active_versions {
   version "1.16.x+ent" {
     lts = true
   }
-  version "1.15.x+ent {}
+  version "1.15.x+ent" {}
 }
