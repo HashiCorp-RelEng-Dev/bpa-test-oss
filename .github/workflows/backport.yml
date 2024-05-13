@@ -20,8 +20,7 @@ jobs:
           backport-assistant backport -merge-method=squash
         env:
           BACKPORT_LABEL_REGEXP: "backport/(?P<target>\\d+\\.\\d+\\.[+\\w]+)"
-          #BACKPORT_TARGET_TEMPLATE: "release/{{.target}}"
-          BACKPORT_TARGET_TEMPLATE: "release/{{.target}}+ent"
+          BACKPORT_TARGET_TEMPLATE: "release/{{.target}}"
           GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
           ENABLE_VERSION_MANIFESTS: true
           BACKPORT_LABEL_TEMPLATE: "backport/{{.ent}}{{.target}}+ent"
