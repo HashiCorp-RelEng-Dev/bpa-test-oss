@@ -4,7 +4,5 @@ active_versions {
     ce_active = true
     lts = true
   }
-  version "1.15.x" {
-    ce_active = true
-  }
+  version "1.15.x" {}
 }
