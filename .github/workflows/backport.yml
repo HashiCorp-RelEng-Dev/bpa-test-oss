@@ -11,16 +11,16 @@ jobs:
   backport:
     if: github.event.pull_request.merged
     runs-on: ubuntu-latest
-    container: hashicorpdev/backport-assistant:0.4.0
+    container: hashicorpdev/backport-assistant:0.4.1
     steps:
       # - name: Checkout
       #   uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
       - name: run backport assistant
         run: |
-          backport-assistant backport
+          backport-assistant backport -merge-method=squash
         env:
-          BACKPORT_LABEL_REGEXP: "backport/(?P<target>\\d+\\.\\d+\\.[+\\w])"
-          BACKPORT_TARGET_TEMPLATE: "releases/{{.target}}"
+          BACKPORT_LABEL_REGEXP: "backport/(?P<target>\\d+\\.\\d+\\.[+\\w]+)"
+          BACKPORT_TARGET_TEMPLATE: "release/{{.target}}"
           GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
           ENABLE_VERSION_MANIFESTS: true
 
@@ -32,7 +32,7 @@ jobs:
           uses: peter-evans/repository-dispatch@ff45666b9427631e3450c54a1bcbee4d9ff4d7c0 # v3.0.0
           with:
             token: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
-            repository: HashiCorp-RelEng-Dev/bpa-test-ent
+            repository: HashiCorp-RelEng-Dev/bpa-test-enterprise
             event-type: ent-backport
             client-payload: ${{ toJson(github.event) }}
 
