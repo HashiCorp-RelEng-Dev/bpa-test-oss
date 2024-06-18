@@ -11,7 +11,7 @@ jobs:
   backport:
     if: github.event.pull_request.merged
     runs-on: ubuntu-latest
-    container: hashicorpdev/backport-assistant:0.4.1
+    container: hashicorpdev/backport-assistant:claire-dev
     steps:
       - name: run backport assistant
         run: |
@@ -34,3 +34,15 @@ jobs:
             event-type: ent-backport
             client-payload: ${{ toJson(github.event) }}
 
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+      - uses: actions/setup-go@fac708d6674e30b6ba41289acaab6d4b75aa0753 # v4.0.1
+        with:
+          go-version-file: 'go.mod'
+      - name: backport validate
+        run: |
+          backport-assistant validate \
+            --owner hashicorp-releng-dev --repo bpa-test-oss --versions 1.15, 1.16 \
+            --begin-date 2024-03-26
