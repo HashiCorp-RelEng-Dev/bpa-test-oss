@@ -43,4 +43,3 @@ jobs:
             repository: HashiCorp-RelEng-Dev/bpa-test-enterprise
             event-type: ent-backport
             client-payload: ${{ toJson(github.event) }}
-
