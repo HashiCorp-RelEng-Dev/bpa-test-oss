@@ -53,7 +53,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
           REPO: bpa-test-oss
           SYNC_REPO: bpa-test-enterprise
+          VERSIONS: 1.15,1.16
+          BEGIN_DATE: 2024-06-19
         run: |
           backport-assistant validate \
-          --owner hashicorp-releng-dev --repo ${REPO} --sync-repo ${SYNC_REPO} --versions ${{inputs.versions}} \
-          --begin-date ${{inputs.begin-date}}
+          --owner hashicorp-releng-dev --repo "${REPO}" --versions "${VERSIONS}" \
+          --begin-date "${BEGIN_DATE}"
+
