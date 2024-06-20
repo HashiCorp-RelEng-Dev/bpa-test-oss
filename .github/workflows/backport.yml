@@ -37,12 +37,6 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
-      - uses: actions/setup-go@fac708d6674e30b6ba41289acaab6d4b75aa0753 # v4.0.1
-        with:
-          go-version-file: 'go.mod'
       - name: backport validate
         run: |
-          backport-assistant validate \
-            --owner hashicorp-releng-dev --repo bpa-test-oss --versions 1.15, 1.16 \
-            --begin-date 2024-03-26
+          backport-assistant validate --owner hashicorp-releng-dev --repo bpa-test-oss --sync-repo bpa-test-enterprise --versions 1.15, 1.16 --begin-date 2024-06-20
