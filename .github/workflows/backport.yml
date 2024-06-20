@@ -38,5 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: backport validate
+        env:
+          GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
         run: |
           backport-assistant validate --owner hashicorp-releng-dev --repo bpa-test-oss --sync-repo bpa-test-enterprise --versions 1.15, 1.16 --begin-date 2024-06-20
