@@ -1,7 +1,17 @@
 ---
-name: Backport Assistant Runner
-
+name: Backport Assistant Runner 
+run-name: Validate backports for versions ${{ inputs.versions }} since ${{ inputs.begin-date }}
 on:
+  workflow_dispatch:
+    inputs:
+      versions:
+        description: "A comma seperated string of the x.y versions representing the backport labels to check. Example: 1.13,1.14,1.15"
+        required: true
+        type: string
+      begin-date:
+        description: Begin Date to check for PRs being merged.  In the format of YYYY-MM-DD.
+        required: true
+        type: string
   pull_request:
     types:
       - labeled
@@ -43,9 +53,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
           REPO: bpa-test-oss
           SYNC_REPO: bpa-test-enterprise
-          VERSIONS: 1.15, 1.16
-          BEGIN_DATE: 2024-06-19
         run: |
           backport-assistant validate \
-          --owner hashicorp-releng-dev --repo ${REPO} --sync-repo ${SYNC_REPO} \
-          --versions ${VERSIONS} --begin-date ${BEGIN_DATE}
+          --owner hashicorp-releng-dev --repo ${REPO} --sync-repo ${SYNC_REPO} --versions ${{inputs.versions}} \
+          --begin-date ${{inputs.begin-date}}
