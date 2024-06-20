@@ -30,8 +30,8 @@ jobs:
         run: git config --global url."https://${{ secrets.ELEVATED_GITHUB_TOKEN}}:@github.com".insteadOf "https://github.com"
       - name: backport validate
         run: |
-          go run github.com/hashicorp/backport-checker validate \
-            --owner hashicorp --repo consul --sync-repo consul-enterprise --versions ${{ inputs.versions }} \
+          backport-assistant validate \
+            --owner hashicorp-releng-dev --repo bpa-test-oss --sync-repo bpa-test-enterprise --versions ${{ inputs.versions }} \
             --begin-date ${{ inputs.begin-date }}
 
   validate-backports-enterprise:
@@ -52,6 +52,6 @@ jobs:
         run: git config --global url."https://${{ secrets.ELEVATED_GITHUB_TOKEN }}:@github.com".insteadOf "https://github.com"
       - name: backport validate
         run: |
-          go run github.com/hashicorp/backport-checker validate \
-            --owner hashicorp --repo consul-enterprise --versions ${{ inputs.versions }} \
+          backport-assistant validate \
+            --owner hashicorp-releng-dev --repo bpa-test-enterprise --versions ${{ inputs.versions }} \
             --begin-date ${{ inputs.begin-date }}
