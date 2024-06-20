@@ -36,6 +36,7 @@ jobs:
 
   validate:
     runs-on: ubuntu-latest
+    container: hashicorpdev/backport-assistant:claire-dev
     steps:
       - name: backport validate
         env:
