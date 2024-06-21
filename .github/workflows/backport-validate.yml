@@ -29,6 +29,9 @@ jobs:
       - name: Setup Git
         run: git config --global url."https://${{ secrets.ELEVATED_GITHUB_TOKEN}}:@github.com".insteadOf "https://github.com"
       - name: backport validate
+        env:
+          BEGIN_DATE: "${{ github.event.inputs.begin-date || env.BEGIN_DATE }}" 
+          VERSIONS: "${{ github.event.inputs.versions || env.VERSIONS }}"
         run: |
           backport-assistant validate \
             --owner hashicorp-releng-dev --repo bpa-test-oss --sync-repo bpa-test-enterprise --versions ${{ inputs.versions }} \
@@ -51,6 +54,9 @@ jobs:
       - name: Setup Git
         run: git config --global url."https://${{ secrets.ELEVATED_GITHUB_TOKEN }}:@github.com".insteadOf "https://github.com"
       - name: backport validate
+        env:
+          BEGIN_DATE: "${{ github.event.inputs.begin-date || env.BEGIN_DATE }}" 
+          VERSIONS: "${{ github.event.inputs.versions || env.VERSIONS }}"
         run: |
           backport-assistant validate \
             --owner hashicorp-releng-dev --repo bpa-test-enterprise --versions ${{ inputs.versions }} \
