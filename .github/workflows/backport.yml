@@ -1,6 +1,6 @@
 ---
 name: Backport Assistant Runner 
-run-name: "${{ contains(github.head_ref, 'backport/')}}: ${{ github.head_ref }} by @${{ github.actor }}"
+run-name: "${{ contains(github.event.pull_request.labels.*.name, 'backport/')}}: ${{ github.head_ref }} by @${{ github.actor }}"
 on:
   workflow_dispatch:
     inputs:

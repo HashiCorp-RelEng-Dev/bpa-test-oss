@@ -59,8 +59,8 @@ jobs:
         run: git config --global url."https://${{ secrets.ELEVATED_GITHUB_TOKEN }}:@github.com".insteadOf "https://github.com"
       - name: backport commenter
         env:
-          BEGIN_DATE: "${{ github.event.inputs.begin-date || env.BEGIN_DATE }} >> $GITHUB_ENV" 
-          VERSIONS: "${{ github.event.inputs.versions || env.VERSIONS }} >> $GITHUB_ENV"
+          BEGIN_DATE: "${{ github.event.inputs.begin-date || env.BEGIN_DATE }}" 
+          VERSIONS: "${{ github.event.inputs.versions || env.VERSIONS }}"
         run: |
           backport-assistant validate \
             --owner hashicorp-releng-dev --sync-repo bpa-test-enterprise --versions ${{ inputs.versions }} \
