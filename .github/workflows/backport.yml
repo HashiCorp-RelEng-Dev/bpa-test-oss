@@ -1,6 +1,6 @@
 ---
 name: Backport Assistant Runner 
-run-name: "BPA Run :: ${{ github.event.pull_request }}: ${{ github.head_ref }}"
+run-name: "BPA Run :: ${{ github.event.pull_request.title }}: ${{ github.head_ref }}"
 on:
   workflow_dispatch:
     inputs:
