@@ -37,7 +37,9 @@ jobs:
         run: |
           backport-assistant validate \
             --owner hashicorp-releng-dev --repo bpa-test-oss --sync-repo bpa-test-enterprise --versions ${{ inputs.versions }} \
-            --begin-date ${{ inputs.begin-date }} --add-comment
+            --begin-date ${{ inputs.begin-date }} \ 
+            --add-comment
+
 
   validate-backports-enterprise:
     container: hashicorpdev/backport-assistant:claire-dev
