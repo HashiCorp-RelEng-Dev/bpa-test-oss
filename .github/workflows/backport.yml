@@ -1,6 +1,6 @@
 ---
 name: Backport Assistant Runner 
-run-name: Validate backports for versions ${{ inputs.versions }} since ${{ inputs.begin-date }}
+run-name: "${{ contains(github.head_ref, 'backport/')}}: ${{ github.head_ref }} by @${{ github.actor }}"
 on:
   workflow_dispatch:
     inputs:
