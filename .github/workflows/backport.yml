@@ -27,8 +27,13 @@ jobs:
         run: |
           backport-assistant backport -merge-method=squash
         env:
-          BACKPORT_LABEL_REGEXP: "backport/(?P<target>\\d+\\.\\d+\\.[+\\w]+)"
-          BACKPORT_TARGET_TEMPLATE: "release/{{.target}}"
+          # Nomad, Vault, and Boundary label + template conventions
+          # BACKPORT_LABEL_REGEXP: "backport/(?P<target>\\d+\\.\\d+\\.[+\\w]+)"
+          # BACKPORT_TARGET_TEMPLATE: "release/{{.target}}"
+          
+          # Consul label + template conventions
+          BACKPORT_LABEL_REGEXP: "backport/(?P<target>\\d+\\.\\d+)"
+          BACKPORT_TARGET_TEMPLATE: "release/{{.target}}.x"
           GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
           ENABLE_VERSION_MANIFESTS: true
 
