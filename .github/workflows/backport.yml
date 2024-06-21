@@ -43,17 +43,3 @@ jobs:
             repository: HashiCorp-RelEng-Dev/bpa-test-enterprise
             event-type: ent-backport
             client-payload: ${{ toJson(github.event) }}
-
-  validate:
-    runs-on: ubuntu-latest
-    container: hashicorpdev/backport-assistant:claire-dev
-    steps:
-      - name: backport validate
-        env:
-          GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
-          REPO: bpa-test-oss
-          SYNC_REPO: bpa-test-enterprise
-        run: |
-          backport-assistant validate \
-          --owner hashicorp-releng-dev --repo ${REPO} --sync-repo ${SYNC_REPO} --versions ${{inputs.versions}} \
-          --begin-date ${{inputs.begin-date}}
