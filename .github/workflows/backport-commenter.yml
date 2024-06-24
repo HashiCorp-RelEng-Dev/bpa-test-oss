@@ -2,7 +2,7 @@ name: Backport Commenter
 run-name: Validate backports for versions ${{ inputs.versions }} since ${{ inputs.begin-date }} and notify PRs owners
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "0 9 * * *"
   workflow_dispatch:
     inputs:
         versions:
