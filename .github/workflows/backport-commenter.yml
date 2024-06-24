@@ -36,6 +36,5 @@ jobs:
           VERSIONS: "${{ github.event.inputs.versions || env.VERSIONS }}"
         run: |
           backport-assistant validate \
-            --owner hashicorp-releng-dev --repo bpa-test-oss --sync-repo bpa-test-enterprise --versions ${{ inputs.versions }} \
-            --begin-date ${{ inputs.begin-date }} \ 
-            --add-comment
+            --owner hashicorp-releng-dev --repo bpa-test-oss --sync-repo bpa-test-enterprise --versions "${VERSIONS}" \
+            --begin-date "${BEGIN_DATE}" --add-comment
