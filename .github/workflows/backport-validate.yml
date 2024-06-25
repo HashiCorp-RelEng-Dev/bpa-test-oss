@@ -60,7 +60,7 @@ jobs:
         # you are unsetting the repository variables if you want to use the inputs.
           BEGIN_DATE: "${{ github.event.inputs.begin-date || vars.BEGIN_DATE }}" 
           VERSIONS: "${{ github.event.inputs.versions || vars.VERSIONS }}"
-          OWNER: hashicorp
+          OWNER: hashicorp-releng-dev
           REPO: bpa-test-enterprise
         run: |
           backport-assistant validate \
