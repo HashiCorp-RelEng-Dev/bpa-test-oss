@@ -62,7 +62,7 @@ jobs:
         # can be adjusted in the GitHub UI. 
           BEGIN_DATE: "${{ vars.BEGIN_DATE }}" 
           VERSIONS: "${{ vars.VERSIONS }}"
-          OWNER: hashicorp
+          OWNER: hashicorp-releng-dev
           REPO: bpa-test-enterprise
         run: |
           backport-assistant validate \
