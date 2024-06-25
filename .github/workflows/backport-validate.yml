@@ -27,7 +27,7 @@ jobs:
           go-version-file: 'go.mod'
       # NOTE: This step is specifically needed for ENT. It allows us to access the required private HashiCorp repos.
       - name: Setup Git
-        run: git config --global url."https://${{ secrets.TOKEN_GITHUB}}:@github.com".insteadOf "https://github.com"
+        run: git config --global url."https://${{ secrets.GITHUB_TOKEN}}:@github.com".insteadOf "https://github.com"
       - name: backport validate
         env:
           BEGIN_DATE: "${{ github.event.inputs.begin-date || env.BEGIN_DATE }}" 
@@ -51,7 +51,7 @@ jobs:
           go-version-file: 'go.mod'
       # NOTE: This step is specifically needed for ENT. It allows us to access the required private HashiCorp repos.
       - name: Setup Git
-        run: git config --global url."https://${{ secrets.TOKEN_GITHUB }}:@github.com".insteadOf "https://github.com"
+        run: git config --global url."https://${{ secrets.GITHUB_TOKEN }}:@github.com".insteadOf "https://github.com"
       - name: backport validate
         env:
         # this allows us to be able to run the workflow manually and input the versions and begin date
