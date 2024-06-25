@@ -61,7 +61,7 @@ jobs:
           BEGIN_DATE: "${{ github.event.inputs.begin-date || vars.BEGIN_DATE }}" 
           VERSIONS: "${{ github.event.inputs.versions || vars.VERSIONS }}"
           OWNER: hashicorp
-          REPO: crt-core-helloworld-enterprise
+          REPO: bpa-test-enterprise
         run: |
           backport-assistant validate \
             --owner "${OWNER}" --repo ${REPO} --versions "${VERSIONS}" \
