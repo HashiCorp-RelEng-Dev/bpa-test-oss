@@ -16,6 +16,8 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+  BPA_COMMENTER_BEGIN_DATE: "${{ vars.BEGIN_DATE }}" 
+  BPA_COMMENTER_VERSIONS: "${{ vars.VERSIONS }}"
 
 jobs:
   validate-backports-oss:
@@ -27,11 +29,12 @@ jobs:
         env:
         # NOTE: BEGIN_DATE and VERSIONS are repository environment variables and
         # can be adjusted in the GitHub UI. 
-          BEGIN_DATE: "${{ vars.BEGIN_DATE }}" 
-          VERSIONS: "${{ vars.VERSIONS }}"
+          OWNER: hashicorp-releng-dev
+          REPO: bpa-test-oss 
+          SYNC_REPO: bpa-test-enterprise
         run: |
           backport-assistant validate \
-            --owner hashicorp-releng-dev --repo bpa-test-oss --sync-repo bpa-test-enterprise --versions "${VERSIONS}" \
+            --owner "${OWNER}" --repo "${REPO}" --sync-repo "${SYNC_REPO}" --versions "${VERSIONS}" \
             --begin-date "${BEGIN_DATE}" --add-comment
   
   validate-backports-enterprise:
@@ -45,10 +48,6 @@ jobs:
     steps:
       - name: backport commenter
         env:
-        # NOTE: BEGIN_DATE and VERSIONS are repository environment variables and
-        # can be adjusted in the GitHub UI. 
-          BEGIN_DATE: "${{ vars.BEGIN_DATE }}" 
-          VERSIONS: "${{ vars.VERSIONS }}"
           OWNER: hashicorp-releng-dev
           REPO: bpa-test-enterprise
         run: |
