@@ -34,8 +34,8 @@ jobs:
           SYNC_REPO: bpa-test-enterprise
         run: |
           backport-assistant validate \
-            --owner "${OWNER}" --repo "${REPO}" --sync-repo "${SYNC_REPO}" --versions "${VERSIONS}" \
-            --begin-date "${BEGIN_DATE}" --add-comment
+            --owner "${OWNER}" --repo "${REPO}" --sync-repo "${SYNC_REPO}" --versions "${BPA_COMMENTER_VERSIONS}" \
+            --begin-date "${BPA_COMMENTER_BEGIN_DATE}" --add-comment
   
   validate-backports-enterprise:
     container: hashicorpdev/backport-assistant:claire-dev
@@ -52,5 +52,5 @@ jobs:
           REPO: bpa-test-enterprise
         run: |
           backport-assistant validate \
-            --owner "${OWNER}" --repo "${REPO}" --versions "${VERSIONS}" \
-            --begin-date "${BEGIN_DATE}" --add-comment
+            --owner "${OWNER}" --repo "${REPO}" --versions "${BPA_COMMENTER_VERSIONS}" \
+            --begin-date "${BPA_COMMENTER_BEGIN_DATE}" --add-comment
