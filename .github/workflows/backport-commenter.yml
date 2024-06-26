@@ -1,5 +1,5 @@
 name: Backport Commenter
-run-name: Validate backports for versions ${{ inputs.versions }} since ${{ inputs.begin-date }} and notify PRs owners
+run-name: Validate backports and notify PRs owners
 on:
   schedule:
     - cron: "0 9 * * *"
@@ -15,21 +15,14 @@ on:
             type: string
 
 env:
-  GOPRIVATE: github.com/hashicorp # Required for private/internal backport-checker repo
   GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
 
 jobs:
   validate-backports-oss:
+    if: ${{! endsWith('-enterprise', github.repository)}} # only run on non-enterprise repositories
     container: hashicorpdev/backport-assistant:claire-dev
     runs-on: [ 'ubuntu-latest' ]
     steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
-      - uses: actions/setup-go@fac708d6674e30b6ba41289acaab6d4b75aa0753 # v4.0.1
-        with:
-          go-version-file: 'go.mod'
-      # NOTE: This step is specifically needed for ENT. It allows us to access the required private HashiCorp repos.
-      - name: Setup Git
-        run: git config --global url."https://${{ secrets.GITHUB_TOKEN }}:@github.com".insteadOf "https://github.com"
       - name: backport commenter
         env:
         # NOTE: BEGIN_DATE and VERSIONS are repository environment variables and
@@ -40,6 +33,7 @@ jobs:
           backport-assistant validate \
             --owner hashicorp-releng-dev --repo bpa-test-oss --sync-repo bpa-test-enterprise --versions "${VERSIONS}" \
             --begin-date "${BEGIN_DATE}" --add-comment
+  
   validate-backports-enterprise:
     container: hashicorpdev/backport-assistant:claire-dev
     runs-on: [ 'ubuntu-latest' ]
@@ -47,15 +41,8 @@ jobs:
     # running in parallel will push it over the limit.
     needs:
       - validate-backports-oss
-    if: ${{ always() }}
+    if: ${{ always() }} && ${{! endsWith('-enterprise', github.repository)}} # only run on non-enterprise repositories
     steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
-      - uses: actions/setup-go@fac708d6674e30b6ba41289acaab6d4b75aa0753 # v4.0.1
-        with:
-          go-version-file: 'go.mod'
-      # NOTE: This step is specifically needed for ENT. It allows us to access the required private HashiCorp repos.
-      - name: Setup Git
-        run: git config --global url."https://${{ secrets.GITHUB_TOKEN }}:@github.com".insteadOf "https://github.com"
       - name: backport commenter
         env:
         # NOTE: BEGIN_DATE and VERSIONS are repository environment variables and
