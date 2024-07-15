@@ -1,8 +1,8 @@
 name: Backport Commenter
 run-name: Validate backports and notify PRs owners
 on:
-  schedule:
-    - cron: "0 9 * * *"
+  # schedule:
+  #   - cron: "0 9 * * *"
   workflow_dispatch:
     inputs:
         versions:
@@ -21,14 +21,12 @@ env:
 
 jobs:
   validate-backports-oss:
-    if: ${{! endsWith('-enterprise', github.repository)}} # only run on non-enterprise repositories
+    if: ${{! endsWith(github.repository, '-enterprise')}} # only run on non-enterprise repositories
     container: hashicorpdev/backport-assistant:claire-dev
     runs-on: [ 'ubuntu-latest' ]
     steps:
       - name: backport commenter
         env:
-        # NOTE: BEGIN_DATE and VERSIONS are repository environment variables and
-        # can be adjusted in the GitHub UI. 
           OWNER: hashicorp-releng-dev
           REPO: bpa-test-oss 
           SYNC_REPO: bpa-test-enterprise
@@ -44,7 +42,7 @@ jobs:
     # running in parallel will push it over the limit.
     needs:
       - validate-backports-oss
-    if: ${{ always() }} && ${{! endsWith('-enterprise', github.repository)}} # only run on non-enterprise repositories
+    if: ${{! endsWith(github.repository, '-enterprise')}} # only run on non-enterprise repositories
     steps:
       - name: backport commenter
         env:
