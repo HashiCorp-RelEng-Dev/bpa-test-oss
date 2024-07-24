@@ -20,6 +20,7 @@ jobs:
         echo ${{ github.event.label.name }}
         export LABEL=${{ github.event.label.name }}
         export PR_NUMBER=${{ github.event.pull_request.number }}
+        export GITHUB_TOKEN=${{ secrets.ELEVATED_GITHUB_TOKEN }}
         backport-assistant validate \
             --owner hashicorp-releng-dev --repo bpa-test-oss \
             --check-label-dupe 
