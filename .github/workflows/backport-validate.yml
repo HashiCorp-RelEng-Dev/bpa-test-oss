@@ -6,7 +6,7 @@ on:
 
 jobs:
   test-validate:
-    if: ${{ github.event_name == 'pull_request' && github.event.action == 'open' }}
+    if: ${{ github.event_name == 'pull_request' && github.event.action == 'opened' }}
     container: hashicorpdev/backport-assistant:claire-dev
     runs-on: ubuntu-latest
     steps:
@@ -17,5 +17,5 @@ jobs:
         export LABEL=${{ github.event.label.name }}
         export PR_NUMBER=${{ github.event.pull_request.number }}
         backport-assistant validate \
-        --owner hashicorp-releng-dev --repo bpa-test-oss  
-        --check-label-dupe \
+            --owner hashicorp-releng-dev --repo bpa-test-oss  
+            --check-label-dupe \
