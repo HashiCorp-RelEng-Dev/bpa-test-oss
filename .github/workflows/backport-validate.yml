@@ -6,10 +6,14 @@ on:
 
 jobs:
   test-validate:
-    if: github.event.pull_request.state == open
+    # if: github.event.pull_request.state == open
     container: hashicorpdev/backport-assistant:claire-dev
     runs-on: ubuntu-latest
     steps:
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
     - uses: actions/checkout@v2
     - name: Check Label Duplication
       run: |
