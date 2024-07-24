@@ -1,4 +1,4 @@
-name: CI
+name: Backport Validate
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   test-validate:
-    if: github.event.pull_request.state == open
+    if: ${{ github.event_name == 'pull_request' && github.event.action == 'open' }}
     container: hashicorpdev/backport-assistant:claire-dev
     runs-on: ubuntu-latest
     steps:
