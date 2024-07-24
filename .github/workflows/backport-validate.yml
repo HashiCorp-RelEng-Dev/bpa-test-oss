@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  pull_request:
+    types: [ labeled ]
+
+jobs:
+  test-validate:
+    if: github.event.pull_request.state == open
+    container: hashicorpdev/backport-assistant:claire-dev
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Check Label Duplication
+      run: |
+        echo ${{ github.event.label.name }}
+        export LABEL=${{ github.event.label.name }}
+        export PR_NUMBER=${{ github.event.pull_request.number }}
+        backport-assistant validate \
+        --owner hashicorp-releng-dev --repo bpa-test-oss  
+        --check-label-dupe \
