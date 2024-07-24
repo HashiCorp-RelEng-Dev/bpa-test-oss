@@ -6,7 +6,7 @@ on:
 
 jobs:
   test-validate:
-    if: github.event.pull_request.state == "open"
+    if: github.event.pull_request.state == open
     container: hashicorpdev/backport-assistant:claire-dev
     runs-on: ubuntu-latest
     steps:
