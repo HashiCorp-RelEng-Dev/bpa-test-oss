@@ -18,8 +18,8 @@ jobs:
     - name: Check Label Duplication
       run: |
         echo ${{ github.event.label.name }}
-        echo ${{ github.event.pull_request.labels.name }}
-        export LABELS=${{ github.event.pull_request.labels.name }}
+        echo ${{ github.event.pull_request.labels }}
+        export LABELS=${{ github.event.pull_request.labels}}
         export PR_NUMBER=${{ github.event.pull_request.number }}
         export GITHUB_TOKEN=${{ secrets.ELEVATED_GITHUB_TOKEN }}
         backport-assistant validate \
