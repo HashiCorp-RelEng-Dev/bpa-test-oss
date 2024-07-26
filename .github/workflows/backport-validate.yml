@@ -16,11 +16,10 @@ jobs:
       run: echo "$GITHUB_CONTEXT"
     - uses: actions/checkout@v4
     - name: Check Label Duplication
+      env: 
+        GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
+        LABELS: $(echo ${{ ToJSON( github.event.pull_request.labels ) }} | jq --raw-output 'map(.name) | join(",")')
+        PR_NUMBER: ${{ github.event.pull_request.number }}
       run: |
-        echo ${{ github.event.label.name }}
-        export LABELS="$(echo '${{ ToJSON( github.event.pull_request.labels ) }}' | jq --raw-output 'map(.name) | join(",")')"
-        echo ${LABELS}
-        export PR_NUMBER=${{ github.event.pull_request.number }}
-        export GITHUB_TOKEN=${{ secrets.ELEVATED_GITHUB_TOKEN }}
-          backport-assistant validate --owner hashicorp-releng-dev --repo bpa-test-oss
+        backport-assistant validate --owner hashicorp-releng-dev --repo bpa-test-oss
    
