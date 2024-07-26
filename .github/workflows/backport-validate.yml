@@ -21,7 +21,6 @@ jobs:
         export LABELS="$(echo '${{ ToJSON( github.event.pull_request.labels ) }}' | jq --raw-output 'map(.name) | join(",")')"
         export PR_NUMBER=${{ github.event.pull_request.number }}
         export GITHUB_TOKEN=${{ secrets.ELEVATED_GITHUB_TOKEN }}
-        fmt.Println(err.Error())
         backport-assistant validate \
             --owner hashicorp-releng-dev --repo bpa-test-oss
         fmt.Println(err.Error())
