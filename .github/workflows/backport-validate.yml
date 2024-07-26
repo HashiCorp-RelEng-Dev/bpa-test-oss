@@ -6,7 +6,6 @@ on:
 
 jobs:
   test-validate:
-    # if: github.event.pull_request.state == open
     container: hashicorpdev/backport-assistant:claire-dev
     runs-on: ubuntu-latest
     steps:
@@ -18,9 +17,9 @@ jobs:
     - name: Check Label Duplication
       env: 
         GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
-        LABELS: "backport/1.16.x,backport/ent/1.16.x+ent"
-        # LABELS: $(echo ${{ ToJSON( github.event.pull_request.labels ) }} | jq --raw-output 'map(.name) | join(",")')
+        LABELS: $(echo ${{ ToJSON( github.event.pull_request.labels ) }} | jq --raw-output 'map(.name) | join(",")')
         PR_NUMBER: ${{ github.event.pull_request.number }}
       run: |
-        backport-assistant validate --owner hashicorp-releng-dev --repo bpa-test-oss
+        backport-assistant validate \
+          --owner hashicorp-releng-dev --repo bpa-test-oss
    
