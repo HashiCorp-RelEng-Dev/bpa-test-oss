@@ -17,9 +17,9 @@ jobs:
     - name: Check Label Duplication
       env: 
         GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
-        LABELS: $(echo ${{ ToJSON( github.event.pull_request.labels ) }} | jq --raw-output 'map(.name) | join(",")')
         PR_NUMBER: ${{ github.event.pull_request.number }}
       run: |
+        export LABELS="$(echo '${{ ToJSON( github.event.pull_request.labels ) }}' | jq --raw-output 'map(.name) | join(",")')"
         backport-assistant validate \
           --owner hashicorp-releng-dev --repo bpa-test-oss
    
