@@ -22,6 +22,5 @@ jobs:
         echo ${LABELS}
         export PR_NUMBER=${{ github.event.pull_request.number }}
         export GITHUB_TOKEN=${{ secrets.ELEVATED_GITHUB_TOKEN }}
-        backport-assistant validate \
-            --owner hashicorp-releng-dev --repo bpa-test-oss
+          backport-assistant validate --owner hashicorp-releng-dev --repo bpa-test-oss
    
