@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: run backport assistant
         run: |
-          backport-assistant backport -merge-method=squash
+          backport-assistant backport
         env:
           # Nomad, Vault, and Boundary label + template conventions
           # BACKPORT_LABEL_REGEXP: "backport/(?P<target>\\d+\\.\\d+\\.[+\\w]+)"
@@ -36,6 +36,11 @@ jobs:
           BACKPORT_TARGET_TEMPLATE: "release/{{.target}}.x"
           GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
           ENABLE_VERSION_MANIFESTS: true
+      - name: print event
+        env:
+            EVENT: ${{ toJson(github.event) }}
+        run: |
+          echo "$EVENT"
 
   backport-ent:
       if: github.event.pull_request.merged && contains(join(github.event.pull_request.labels.*.name), 'backport/ent')
