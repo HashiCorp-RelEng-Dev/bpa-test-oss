@@ -34,7 +34,7 @@ jobs:
           # Consul label + template conventions
           BACKPORT_LABEL_REGEXP: "backport/(?P<target>\\d+\\.\\d+)"
           BACKPORT_TARGET_TEMPLATE: "release/{{.target}}.x"
-          GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
+          # GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
           ENABLE_VERSION_MANIFESTS: true
       - name: print event
         env:
