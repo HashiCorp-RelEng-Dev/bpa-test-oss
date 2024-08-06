@@ -23,6 +23,11 @@ jobs:
     runs-on: ubuntu-latest
     container: hashicorpdev/backport-assistant:0.4.5-dev
     steps:
+      - name: print event
+        env:
+            EVENT: ${{ toJson(github.event) }}
+        run: |
+          echo "$EVENT"
       - name: run backport assistant
         run: |
           backport-assistant backport
@@ -36,11 +41,6 @@ jobs:
           BACKPORT_TARGET_TEMPLATE: "release/{{.target}}.x"
           # GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
           ENABLE_VERSION_MANIFESTS: true
-      - name: print event
-        env:
-            EVENT: ${{ toJson(github.event) }}
-        run: |
-          echo "$EVENT"
 
   backport-ent:
       if: github.event.pull_request.merged && contains(join(github.event.pull_request.labels.*.name), 'backport/ent')
