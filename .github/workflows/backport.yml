@@ -23,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     container: hashicorpdev/backport-assistant:0.5.0-dev
     steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: print event
         env:
             EVENT: ${{ toJson(github.event) }}
