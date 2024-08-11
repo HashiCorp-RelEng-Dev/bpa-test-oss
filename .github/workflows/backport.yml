@@ -35,7 +35,7 @@ jobs:
           # Nomad, Vault, and Boundary label + template conventions
           # BACKPORT_LABEL_REGEXP: "backport/(?P<target>\\d+\\.\\d+\\.[+\\w]+)"
           # BACKPORT_TARGET_TEMPLATE: "release/{{.target}}"
-          
+          SKIP_MERGE_CONFLICTS: "TRUE"
           # Consul label + template conventions
           BACKPORT_LABEL_REGEXP: "backport/(?P<target>\\d+\\.\\d+)"
           BACKPORT_TARGET_TEMPLATE: "release/{{.target}}.x"
