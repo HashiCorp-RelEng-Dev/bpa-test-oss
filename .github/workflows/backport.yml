@@ -21,21 +21,27 @@ jobs:
   backport:
     if: github.event.pull_request.merged
     runs-on: ubuntu-latest
-    container: hashicorpdev/backport-assistant:claire-dev
+    container: hashicorpdev/backport-assistant:0.5.0-dev
     steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - name: print event
+        env:
+            EVENT: ${{ toJson(github.event) }}
+        run: |
+          echo "$EVENT"
       - name: run backport assistant
         run: |
-          backport-assistant backport -merge-method=squash
+          backport-assistant backport
         env:
           # Nomad, Vault, and Boundary label + template conventions
           # BACKPORT_LABEL_REGEXP: "backport/(?P<target>\\d+\\.\\d+\\.[+\\w]+)"
           # BACKPORT_TARGET_TEMPLATE: "release/{{.target}}"
-          
+          SKIP_MERGE_CONFLICTS: "TRUE"
           # Consul label + template conventions
           BACKPORT_LABEL_REGEXP: "backport/(?P<target>\\d+\\.\\d+)"
           BACKPORT_TARGET_TEMPLATE: "release/{{.target}}.x"
-          GITHUB_TOKEN: ${{ secrets.ELEVATED_GITHUB_TOKEN }}
-          ENABLE_VERSION_MANIFESTS: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # ENABLE_VERSION_MANIFESTS: true
 
   backport-ent:
       if: github.event.pull_request.merged && contains(join(github.event.pull_request.labels.*.name), 'backport/ent')
